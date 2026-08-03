@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ChessMentor
 
-## Getting Started
+Teaching-first chess web app: every move gets a **pre-move intent** note and a **post-move outcome** classification, plus a post-game report.
 
-First, run the development server:
+## Variants
+
+- **Standard** — classical chess  
+- **Chess960** — Fischer random starting position  
+- **Atomic** — captures explode (custom rules + JS AI)  
+- **King of the Hill** — win by getting your king to d4/d5/e4/e5  
+
+## Stack
+
+| Layer | Choice |
+|--------|--------|
+| App | Next.js (App Router) + React + Tailwind |
+| Rules | [chessops](https://github.com/niklasf/chessops) (Standard, 960, Atomic, KOTH) |
+| AI | Stockfish 18 lite WASM (single-thread) + JS minimax fallback / Atomic AI |
+| State | Zustand |
+| Storage | IndexedDB (`idb-keyval`) — no accounts |
+| Board | `react-chessboard` |
+
+## Run
 
 ```bash
+cd chessmentor
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Features (v1)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- AI difficulty tiers (~800 → full strength) with blunder-shaping at low levels  
+- Tutor Tier 1: deterministic templates + centipawn classification  
+- Hint, takeback, resign, board flip  
+- Move list with classification icons  
+- Local game history + PGN export + eval graph report  
 
-## Learn More
+## Project layout
 
-To learn more about Next.js, take a look at the following resources:
+See `src/engines/` (rules, AI, tutor), `src/components/`, `src/store/`, `src/app/`.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License notes
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Stockfish.js is GPLv3 (see `node_modules/stockfish/Copying.txt`).  
+- Piece graphics come from `react-chessboard` defaults.

@@ -1,26 +1,92 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #1a1a1a;
+  --paper: #f7f5f0;
+  --signal: #d0361e;
+  --good: #3c6e47;
+  --neutral: #8a8680;
+  --background: var(--paper);
+  --foreground: var(--ink);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-ink: var(--ink);
+  --color-paper: var(--paper);
+  --color-signal: var(--signal);
+  --color-good: var(--good);
+  --color-neutral: var(--neutral);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button,
+a {
+  cursor: pointer;
+}
+
+/* Swiss: hairline focus, no gaudy rings */
+:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 2px;
+}
+
+/* Scrollbars — minimal */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: color-mix(in srgb, var(--ink) 25%, transparent);
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Card system */
+.card-shell {
+  border-radius: 0;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.learning-rail,
+.coach-rail {
+  background: var(--paper);
+}
+
+.board-stage {
+  /* Soft stage so board pops; rails stay paper */
+  background:
+    linear-gradient(180deg, #f3f1eb 0%, #efece4 100%);
+}
+
+/* Dense rails: tighter type in cards */
+.learning-rail .card-shell,
+.coach-rail .card-shell {
+  box-shadow: none;
+}
+
+/* Timeline chips */
+@media (max-width: 1023px) {
+  .board-stage {
+    min-height: 55vh;
+  }
 }
